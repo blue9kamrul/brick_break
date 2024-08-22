@@ -15,7 +15,7 @@ class HomePage extends StatefulWidget {
   State<HomePage> createState() => _HomePageState();
 }
 
-
+enum direction { UP, DOWN }
 
 class _HomePageState extends State<HomePage> {
 //ball vars
@@ -23,9 +23,11 @@ class _HomePageState extends State<HomePage> {
   double ballX = 0;
   double ballY = 0;
 
+  var ballDirection = direction.DOWN;
+
 //player vars
-  double playerX = 0;
-  double playerWidth = 0.3;
+  double playerX = -.2;
+  double playerWidth = 0.4;
 
 
   //game settings
@@ -35,10 +37,32 @@ class _HomePageState extends State<HomePage> {
   void startGame(){
     hasGameStarted = true;
     Timer.periodic(const Duration(milliseconds: 10), (timer) {
-      setState(() {
-      ballY += 0.001;
-      });
+      updateDirection();
+      // update direction
+      moveBall();
     });
+  }
+
+  void moveBall(){
+    setState(() {
+      if(ballDirection == direction.DOWN){
+        ballY += 0.01;
+      }else{
+        ballY -= 0.01;
+      }
+    });
+  }
+
+  //update dierection
+  void updateDirection(){
+    setState(() {
+  if(ballY >= 0.9){
+    ballDirection = direction.UP;
+  }
+  else if(ballY <= -.9){
+    ballDirection = direction.DOWN;
+  }
+});
   }
 
 //move left
@@ -53,7 +77,7 @@ class _HomePageState extends State<HomePage> {
   //move right
   void moveRight(){
     setState(() {
-      if(!(playerX + .2 > 1.0)){
+      if(!(playerX + playerWidth > 1.0)){
         playerX += 0.2;
       }
     });
@@ -95,8 +119,26 @@ class _HomePageState extends State<HomePage> {
                 MyPlayer(
                   playerX: playerX,
                   playerWidth: playerWidth,
-                )
-      
+                ),
+
+                //where is player
+                //  Container(
+                //     alignment: Alignment(playerX, 0.9),
+                //     child: Container(
+                //       height: 20,
+                //       width: 5,
+                //       color: Color.fromARGB(255, 90, 2, 51),
+                //     ),
+                //   ),
+
+                //   Container(
+                //     alignment: Alignment(playerX + playerWidth, 0.9),
+                //     child: Container(
+                //       height: 20,
+                //       width: 5,
+                //       color: Color.fromARGB(255, 90, 2, 51),
+                //     ),
+                //   ),
               ],  
             ),
           ),
