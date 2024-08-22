@@ -1,6 +1,9 @@
 import 'dart:async';
 
+
+import 'package:brick_break/ball.dart';
 import 'package:brick_break/coverscreen.dart';
+import 'package:brick_break/player.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatefulWidget {
@@ -17,6 +20,11 @@ class _HomePageState extends State<HomePage> {
 
   double ballX = 0;
   double ballY = 0;
+
+//player vars
+  double playerX = 0;
+  double playerWidth = 0.3;
+
 
   //game settings
   bool hasGameStarted = false;
@@ -46,21 +54,20 @@ class _HomePageState extends State<HomePage> {
               hasGameStarted: hasGameStarted),
 
             //ball
-            Container(
-              alignment:Alignment(ballX, ballY),
-              child: Container(
-                height: 15,
-                width: 15,
-                decoration: BoxDecoration(
-                  color: Colors.deepPurple,
-                  borderRadius: BorderRadius.circular(100)
-                )
+            MyBall(
+              ballX: ballX,
+              ballY: ballY,
+              ),
+              //player
+              MyPlayer(
+                playerX: playerX,
+                playerWidth: playerWidth,
               )
-            )
-          ]
-        )
-      )
-    ),
-    ); 
+
+            ],  
+          ),
+        ),
+      ),
+    );
   }
 }
